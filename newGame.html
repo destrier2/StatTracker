@@ -25,20 +25,25 @@
 					<label for="sevens">Sevens</label><br>
 					<input id="other" type="radio" name = "lineNum" required />
 					<label for="other">Other</label>
-					<input id="otherInput" type="number" name = "lineNum" style = "display: none;" />
+					<input id="otherInput" type="number" name = "lineNum" style = "display: none; width:15ch;" />
 					<br><br>
                     <lable for="length">Length (in minutes):</lable>
-                    <input id="length" type="number" style="width:15ch" /required>
+                    <input id="length" type="number" style="width:15ch" required />
                     <br><br>
                     <p style="display:inline;">Halftime?</p> <br>
                     <input id="yesHalf" type="radio" name="halftime" required />
                     <label for="yesHalf">Yes</label><br>
                     <input id="noHalf" type="radio" name="halftime" required />
                     <label for="noHalf">No</label>
+                    <div id="hiddenHalfStuff" style="display:none;">
+                        <br><br>
+                        <label for="halfLength">Length of halftime:</label>
+                        <input id="halfLength" type="number" style="width:15ch;" /> 
+                    </div>
                     <br>
                     <br>
                     <label for="timeoutCount">Number of timeouts in game:</label>
-                    <input id="timeoutCount" type="number" style="width:15ch" required />
+                    <input id="timeoutCount" type="number" style="width:15ch;" required />
                     <br><br>
 					<button type="submit">Start game</button>
 				</fieldset>
