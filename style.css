@@ -1,5 +1,5 @@
 button {
-	background-color: #f3cee5;
+	background-color: #f3cac9;
 	border: 2px solid #dba9c8;
 	border-radius: 5px;
 	padding: 20px 20px;
@@ -20,6 +20,16 @@ body {
 }
 .hidden {
 	display:none;
+}
+.delete {
+    color:white;
+    background-color: #fa6161;
+    border: 2px solid #bd0909;
+}
+.delete:hover {
+    background-color: white;
+    color:red;
+    border: 2px solid red;
 }
 table {
 	width: 75%;
