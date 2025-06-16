@@ -4,6 +4,7 @@ button {
 	border-radius: 5px;
 	padding: 20px 20px;
 	transition-duration:0.5s;
+    color:black;
 }
 button:hover {
 	background-color: white;
@@ -47,4 +48,9 @@ table.dropdown th {
 }
 .dropdownOdd {
 	background-color:rgba(230, 230, 230, 0.8);
+}
+
+fieldset {
+    border:1px solid black;
+    border-radius: 20px;
 }
