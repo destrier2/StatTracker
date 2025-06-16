@@ -8,6 +8,7 @@ const TEAMS_KEY = "teams";
 
 document.getElementById("clearStorage").addEventListener("click", function(event) {
 	localStorage.clear();
+    sessionStorage.removeItem("teamName");
 	console.log("cleared storage");
 });
 document.getElementById("viewStorage").addEventListener("click", function(event) {
