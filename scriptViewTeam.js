@@ -145,9 +145,39 @@ document.getElementById("pName").addEventListener("input", function(event) {
 	});
 });*/
 
+document.getElementById("teamName").addEventListener("input", function(event) {
+	if (document.activeElement.tagName === 'INPUT') {
+		let teams = [];
+		try {
+			teams = JSON.parse(localStorage.getItem(TEAMS_KEY)) || [];
+		} catch (e) {
+			return; //exit if there's an issue
+		}
+		var current = document.getElementById("teamName").value;
+		var table = document.getElementById("dropdownTeams");
+		while (table.rows.length > 0) {
+			table.deleteRow(0);
+		}
+		teams.forEach(team => checkTeam(table, current, team));
+	}
+});
+
+function checkTeam(table, current, team) {
+    if (team.name.substring(0, current.length) === current) {
+        var row = table.insertRow(0);
+		row.insertCell(0).innerHTML=team.name;
+		if (table.rows.length % 2) {
+			row.classList.add('dropdownOdd');
+		}
+	}
+}
 
 document.addEventListener('mousedown', function(event) {
 	var table = document.getElementById("dropdownPlayers");
+	while (table.rows.length > 0) {
+		table.deleteRow(0);
+	}
+    var table = document.getElementById("dropdownTeams");
 	while (table.rows.length > 0) {
 		table.deleteRow(0);
 	}
