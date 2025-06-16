@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Add Team</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+		<body>
+			<h1>Frisbee stats tracker - Add a Game</h1>
+			<button id="toHome" class="mainMenu" onclick="document.location='index.html'">Back to Home</button>
+			<br><br>
+			<form id="newGameForm">
+				<fieldset>
+					<legend>Start a new game</legend>
+					<label for="newGameTeamName">Team name:</label>
+					<input id="newGameTeamName" type="text" required />
+					<br><br>
+					<p style="display:inline;">Number of players per line</p><br>
+					<input id="fours" type="radio" name = "lineNum" required />
+					<label for="fours">Fours</label><br>
+					<input id="fives" type="radio" name = "lineNum" required />
+					<label for="fives">Fives</label><br>
+					<input id="sevens" type="radio" name = "lineNum" required />
+					<label for="sevens">Sevens</label><br>
+					<input id="other" type="radio" name = "lineNum" required />
+					<label for="other">Other</label>
+					<input id="otherInput" type="number" name = "lineNum" style = "display: none;" />
+					<br><br>
+					<button type="submit">Start game</button>
+				</fieldset>
+			</form>
+			<script src="scriptNewGame.js" defer></script>
+		</body>
+</html>

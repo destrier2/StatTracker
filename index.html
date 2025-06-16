@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Stats</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+		<body>
+			<h1>Frisbee stats tracker - Home</h1>
+			<button id = "addTeam" class = "mainMenu" type="button" onclick="document.location='newTeam.html'">Create Team</button> 
+			<button id = "viewTeam" class = "mainMenu" type="button" onclick="document.location='viewTeam.html'">View Team</button>
+			<button id = "addGame" class = "mainMenu" type="button" onclick="document.location='newGame.html'">Add Game</button>
+			<button id = "addPlayer" class = "mainMenu" type="button" onclick="document.location='newPlayer.html'">Add Player</button>
+			<button id = "viewPlayers" class = "mainMenu" type="button" onclick="document.location='viewPlayers.html'">View Players</button>
+			<br><br>
+			<button id="clearStorage" type="button">Clear storage</button>
+			<button id="viewStorage" type="button">View storage</button>
+			<!-- <button id="clearSS" type="button" onclick="sessionStorage.clear()">Clear Session storage</button> -->
+		<script src="script.js" defer></script>
+	</body>
+</html>
+
+<!-- 
+To do: 
+- Create a dropdown for all the players when adding players to a team
+- Put add players and view players on the same page
+- Remove team from storage
+- Remove players from team
+- Add a dropdown for all the teams when adding a new game or viewing teams
+-->

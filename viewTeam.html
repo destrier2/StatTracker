@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-US">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>Add Team</title>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+		<body>
+			<h1>Frisbee stats tracker - View a Team</h1>
+			<button id="toHome" class="mainMenu" onclick="document.location='index.html'">Back to Home</button>
+			<form id="teamForm">
+					<br>
+					<label for="teamName">Team name:</label>
+					<div style="width:22ch;margin:auto;">
+						<input id="teamName" type="text" required />
+						<table id="dropdownTeams" class="dropdown">
+								<!-- This is a dropdown of all the teams in the system -->
+								
+							</table>
+					</div>
+					
+					<!-- Players need: name, gender, number. You should be able to edit a player, or delete them from roster-->
+					<br>
+			</form>
+			<div id="hiddenTeamStuff" class="hidden">
+				<h1 id="nameHere"></h1> 
+				
+				<table id = "roster">
+					<tr>
+						<th>Player</th>
+						<th>Number</th>
+						<th>O/W</th>
+						<th>TA</th>
+						<th>D</th>
+						<th>G</th>
+						<th>A</th>
+						<th>2A</th>
+						<th>RE</th>
+					</tr>
+				</table> 
+				<br><br>
+				<form id="addPlayer">
+					<fieldset>
+						<legend>Add a player to this team</legend>
+						<label for="pName">Player name:</label>
+						<div style="width:22ch;margin:auto;">
+							<input type="text" id="pName" required />
+							<table id="dropdownPlayers" class="dropdown">
+								<!-- This is a dropdown of all the players in the system who can be added to this team -->
+								
+							</table>
+						</div>
+						<br><br>
+						<button type="submit" id="addToRoster">Add player to roster</button>
+					</fieldset>
+				</form>
+				
+				
+			</div>
+		<script src="scriptViewTeam.js" defer></script>
+		</body>
+</html>
