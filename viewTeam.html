@@ -13,7 +13,7 @@
 					<br>
 					<label for="teamName">Team name:</label>
 					<div style="width:22ch;margin:auto;">
-						<input id="teamName" type="text" required />
+						<input id="teamName" type="text" style="width:20ch;" required />
 						<table id="dropdownTeams" class="dropdown">
 								<!-- This is a dropdown of all the teams in the system -->
 								
@@ -45,7 +45,7 @@
 						<legend>Add a player to this team</legend>
 						<label for="pName">Player name:</label>
 						<div style="width:22ch;margin:auto;">
-							<input type="text" id="pName" required />
+							<input type="text" id="pName" style="width:20ch;" required />
 							<table id="dropdownPlayers" class="dropdown">
 								<!-- This is a dropdown of all the players in the system who can be added to this team -->
 								
@@ -55,8 +55,8 @@
 						<button type="submit" id="addToRoster">Add player to roster</button>
 					</fieldset>
 				</form>
-				
-				
+				<br><br>
+				<button type="button" id="deleteTeam" class="delete">Delete this team</button>
 			</div>
 		<script src="scriptViewTeam.js" defer></script>
 		</body>
