@@ -16,6 +16,21 @@ function addPlayerToTable(playername, playernum, playergender, ta, d, g, a, twoa
 	row.insertCell(8).innerHTML=re;
 }
 
+document.getElementById("deleteTeam").addEventListener("click", function(event) {
+    let teams = [];
+	try {
+		teams = JSON.parse(localStorage.getItem(TEAMS_KEY)) || [];
+	} catch (e) {
+		alert("Error. Please try again.");
+		return false; //exit if there's an issue
+	}
+    const team = teams.find(team => team.name === teamName);
+    teams.splice(teams.indexOf(team), 1);
+    localStorage.setItem(TEAMS_KEY, JSON.stringify(teams)); //Push changes to storage
+    teamName = null;
+    location.reload();
+});
+    
 document.getElementById("addPlayer").addEventListener("submit", function(event) {
 	//Check if player is already in the list
 	let playername = document.getElementById("pName").value;
@@ -169,6 +184,10 @@ function checkTeam(table, current, team) {
 		if (table.rows.length % 2) {
 			row.classList.add('dropdownOdd');
 		}
+        
+        row.addEventListener('mousedown', function(event) {
+            document.getElementById('teamName').value = team.name;
+        });
 	}
 }
 
@@ -191,6 +210,11 @@ function checkPlayer(table, current, player) {
 		if (table.rows.length % 2) {
 			row.classList.add('dropdownOdd');
 		}
+
+        row.addEventListener('mousedown', function(event) {
+            document.getElementById('pName').value = player.name;
+        });
+        
 	}
 }
 
