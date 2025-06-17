@@ -6,10 +6,40 @@
 		<title>Game</title>
 		<link rel="stylesheet" href="style.css" />
 	</head>
+        <style>
+            #gameContainer {
+                border:1px solid black;
+                border-radius:20px;
+                width:80%;
+                margin:auto;
+                padding:10px;
+            }
+            #container {
+                display:inline-grid;
+                grid-template-columns: 1fr 1fr;
+            }
+            #topContainer {
+                display:inline-grid;
+                grid-template-columns: 1fr 1fr 1fr;
+            }
+            .content {
+                padding:10px;
+            }
+            .contentButton {
+                width: 100%;
+            }
+        </style>
 		<body>
 			<h1>Frisbee stats tracker - Game</h1>
 			<button id="toHome" type="button" class="mainMenu" onclick="document.location='index.html'">Back to Home</button>
-			<div>
+			<br><br>
+            <div id="gameContainer">
+                <div id="topContainer">
+                    <p id="timeoutsHere">timeouts</p>
+                    <p id="timeHere">0</p>
+                    <p id="pointsHere">points</p>
+                </div>
+                <br>
                 <!-- Timer would have started
                     Include: 
                     - Buttons for each player, clicked when they have possession of disc
@@ -22,7 +52,19 @@
                     - Once goal is clicked, another putton, start pull appears. Once pull is started, stop pull appears
                         - Times the pull
                 -->
+                <div id="container">
+                    <div id="playerButtons" class = "content"> 
+                        <!-- Player buttons go here (done in JS) -->
+                    </div>
+                    <div class="content"> 
+                        <button id="D" type="button" class = "contentButton" >Defense</button><br>
+                        <button id="TA" type="button" class = "contentButton" >Throwaway</button><br>
+                        <button id="RE" type="button" class = "contentButton" >Receiver error</button><br>
+                        <button id="G" type="button" class = "contentButton" >Goal</button><br>
+                    </div>
+                </div>
             </div>
+            
 			<script src="scriptGame.js" defer></script>
 		</body>
 </html>
