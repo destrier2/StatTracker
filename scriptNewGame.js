@@ -8,7 +8,16 @@ document.getElementById("newGameForm").addEventListener("submit", function(event
         alert("This team does not exist.")
     } else {
         teamName = tname;
-        
+        if (document.getElementById("yesO").checked) {
+            sessionStorage.setItem("startOffense", true);
+        } else {
+            sessionStorage.setItem("startOffense", false);
+        }
+        sessionStorage.setItem("timeouts", document.getElementById("timeoutCount").value);
+        sessionStorage.setItem("nowPlaying", tname);
+        sessionStorage.setItem("gameLength",document.getElementById("length").value);
+        document.location="game.html";
+        event.preventDefault();
     }
 });
 
