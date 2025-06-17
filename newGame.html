@@ -27,7 +27,7 @@
 					<label for="other">Other</label>
 					<input id="otherInput" type="number" name = "lineNum" style = "display: none; width:15ch;" />
 					<br><br>
-                    <lable for="length">Length (in minutes):</lable>
+                    <label for="length">Length (in minutes):</label>
                     <input id="length" type="number" style="width:15ch" required />
                     <br><br>
                     <p style="display:inline;">Halftime?</p> <br>
@@ -40,6 +40,12 @@
                         <label for="halfLength">Length of halftime:</label>
                         <input id="halfLength" type="number" style="width:15ch;" /> 
                     </div>
+                    <br><br>
+                    <p style="display:inline;">Start on offense?</p> <br>
+                    <input id="yesO" type="radio" name="offenseStart" required />
+                    <label for="yesO">Yes</label><br>
+                    <input id="noO" type="radio" name="offenseStart" required />
+                    <label for="noO">No</label>
                     <br>
                     <br>
                     <label for="timeoutCount">Number of timeouts in game:</label>
