@@ -63,4 +63,6 @@ table.dropdown th {
 fieldset {
     border:1px solid black;
     border-radius: 20px;
+    width: 80vw;
+    margin:auto;
 }

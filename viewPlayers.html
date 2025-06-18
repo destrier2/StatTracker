@@ -9,13 +9,14 @@
 		<body>
 			<h1>Frisbee stats tracker - View all players</h1>
 			<button id="toHome" type="button" class="mainMenu" onclick="document.location='index.html'">Back to Home</button>
-            <div>
+            <div style="overflow-x:scroll; ">
 				<p>All players: </p>
 				<table id = "allPlayers">
 					<tr>
 						<th>Player</th>
-						<th>Number</th>
+						<th>#</th>
 						<th>O/W</th>
+						<th>Pulls</th>
 						<th>TA</th>
 						<th>D</th>
 						<th>G</th>
@@ -24,10 +25,23 @@
 						<th>RE</th>
 					</tr>
 				</table> 
-                <br><br>
 			</div>
+			<br><br>
             <button id="addPlayer" type="button" onclick="document.location='newPlayer.html'">Add a player</button>
-
+			<br><br>
+			<button id="removePlayer" type="button" class="delete">Remove a player</button>
+			<br><br>
+			<div id="removePlayerHiddenStuff" style="display:none;">
+				<form id="formRemovePlayer">
+					<fieldset>
+						<br>
+						<label for="removePlayerName">Player name: </label>
+						<input id="removePlayerName" required /><br><br>
+						<button id="remove" type="submit" class="delete">Remove player</button>
+						<button id="cancelRemove" type="button">Cancel</button>
+					</fieldset>
+				</form>
+			</div>
 			<script src="scriptViewPlayers.js" defer></script>
 		</body>
 </html>

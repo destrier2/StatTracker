@@ -16,18 +16,18 @@
             }
             #container {
                 display:inline-grid;
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: 30vw 30vw;
             }
             #topContainer {
                 display:inline-grid;
                 grid-template-columns: 1fr 1fr 1fr;
             }
-            .content {
+            #content {
                 padding:10px;
             }
-            .contentButton {
-                width: 100%;
-            }
+			.contentButton {
+				width:100%;
+			}
         </style>
 		<body>
 			<h1>Frisbee stats tracker - Game</h1>
@@ -52,16 +52,22 @@
                     - Once goal is clicked, another putton, start pull appears. Once pull is started, stop pull appears
                         - Times the pull
                 -->
-                <div id="container">
-                    <div id="playerButtons" class = "content"> 
+                <div id="container"">
+                    <div id="playerButtons" class = "content" style="padding:5px;"> 
                         <!-- Player buttons go here (done in JS) -->
                     </div>
-                    <div class="content"> 
-                        <button id="D" type="button" class = "contentButton" >Defense</button><br>
-                        <button id="TA" type="button" class = "contentButton" >Throwaway</button><br>
-                        <button id="RE" type="button" class = "contentButton" >Receiver error</button><br>
-                        <button id="G" type="button" class = "contentButton" >Goal</button><br>
+                    <div id="content" style="padding:5px;"> 
+                        <button id="D" type="button" class = "contentButton" >Defense</button>
+						<button id="OG" type="button" class = "contentButton" >Opponent Goal</button>
+						<button id="TO" type="button" class = "contentButton" >Turnover</button>
+                        <button id="TA" type="button" class = "contentButton" >Throwaway</button>
+                        <button id="RE" type="button" class = "contentButton" >Receiver error</button>
+                        <button id="G" type="button" class = "contentButton" >Goal</button>
                     </div>
+                    <div id="pulls" style="padding:5px;">
+						<button id="startPull" type="button" class = "contentButton">Start Pull</button>
+						<button id="endPull" type="button" class = "contentButton">End Pull</button>
+					</div>
                 </div>
             </div>
             

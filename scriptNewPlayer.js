@@ -31,7 +31,7 @@ function storeNewPlayer(playerName, playerNum, playerGender) {
 		alert("Already exists");
 		return false;
 	} else {
-		const newPlayer = { name: playerName, number:playerNum, gender: playerGender, ta:0, d:0, g:0, a:0, twoa:0, re:0 };
+		const newPlayer = { name: playerName, number:playerNum, gender: playerGender, ph: [], ta:0, d:0, g:0, a:0, twoa:0, re:0 };
 		players.push(newPlayer);
 		try {
 			localStorage.setItem(PLAYERS_KEY, JSON.stringify(players));
