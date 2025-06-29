@@ -28,6 +28,14 @@
 			.contentButton {
 				width:100%;
 			}
+			#undo {
+				background-color:violet;
+				color:white;
+				border-color:darkorchid;
+			}
+			#undo:hover {
+				background-color:#e8abed;
+			}
         </style>
 		<body>
 			<h1>Frisbee stats tracker - Game</h1>
@@ -35,11 +43,10 @@
 			<br><br>
             <div id="gameContainer">
                 <div id="topContainer">
-                    <p id="timeoutsHere">timeouts</p>
-                    <p id="timeHere">0</p>
-                    <p id="pointsHere">points</p>
+                    <p id="timeoutsHere">Timeouts remaining: 0</p>
+                    <p id="timeHere">60:00</p>
+                    <p id="pointsHere">0 : 0</p>
                 </div>
-                <br>
                 <!-- Timer would have started
                     Include: 
                     - Buttons for each player, clicked when they have possession of disc
@@ -52,7 +59,9 @@
                     - Once goal is clicked, another putton, start pull appears. Once pull is started, stop pull appears
                         - Times the pull
                 -->
+				<div id="OorD"></div>
                 <div id="container"">
+				
                     <div id="playerButtons" class = "content" style="padding:5px;"> 
                         <!-- Player buttons go here (done in JS) -->
                     </div>
@@ -67,9 +76,14 @@
                     <div id="pulls" style="padding:5px;">
 						<button id="startPull" type="button" class = "contentButton">Start Pull</button>
 						<button id="endPull" type="button" class = "contentButton">End Pull</button>
+						<button id="pickUp" type="button" class = "contentButton">Pick Up</button>
 					</div>
                 </div>
+				<br><br><br>
+				<button id="undo" type="button">Undo</button>
             </div>
+			<br><br>
+			<button type="button" id="viewGameData">View Game Data</button>
             
 			<script src="scriptGame.js" defer></script>
 		</body>

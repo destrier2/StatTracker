@@ -53,7 +53,6 @@ function displayPlayer(playername, playernum, playergender, ph, ta, d, g, a, two
 		});
 		total /= count;
 		row.insertCell(3).innerHTML=total.toFixed(1);
-		console.log("total is: "+total);
 	} else {
 		row.insertCell(3).innerHTML=0;
 	}
