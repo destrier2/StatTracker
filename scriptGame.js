@@ -11,6 +11,7 @@ let pullID; //The id of the interval thing that keeps track of the pull length
 let pullTimer; //Count how much time passes from pull start to end
 let gameID; //The id that can be used to refer to this game
 let gameData = []; //All the stuff that happened during the game
+let buttonPlayersArray = [];
 /*
 Game data is stored according to the team name and the date.
 Team name id = teamName+"|"+fullYear-month-day+"|"+hours:minutes:seconds
@@ -74,6 +75,7 @@ function notActivePoint() {
 		document.getElementById("endPull").style.display="none";
 		document.getElementById("startPull").style.display="block";
 	    document.getElementById("content").style.display="none";
+		document.getElementById("pickUp").style.display="none";
 	}else {
 		document.getElementById("pulls").style.display="block";
 		//If the pull isn't from this team, there has to be a separate button. pick up? 
@@ -82,6 +84,7 @@ function notActivePoint() {
 		document.getElementById("pickUp").style.display="block";
 		document.getElementById("content").style.display="none";
 	}
+	reset();
 }
 
 //D, TA, RE, G
@@ -97,6 +100,7 @@ document.getElementById("D").addEventListener("click", function(event) {
 	const player = players.find(person => person.name === current); //Find the right person
 	player.g++;
 	gameData.push(current+"-D");
+	reset();
 });
 
 document.getElementById("TA").addEventListener("click", function(event) {
@@ -111,6 +115,7 @@ document.getElementById("TA").addEventListener("click", function(event) {
 	const player = players.find(person => person.name === current); //Find the right person
 	player.ta++;
 	gameData.push(current+"-TA");
+	reset();
 });
 
 document.getElementById("RE").addEventListener("click", function(event) {
@@ -125,10 +130,10 @@ document.getElementById("RE").addEventListener("click", function(event) {
 	const player = players.find(person => person.name === current); //Find the right person
 	player.re++;
 	gameData.push(current+"-RE");
+	reset();
 });
 
 document.getElementById("G").addEventListener("click", function(event) {
-    notActivePoint(); //Now not an active point, between points
 	let players = [];
 	try {
 		players = JSON.parse(localStorage.getItem(PLAYERS_KEY)) || [];
@@ -141,14 +146,16 @@ document.getElementById("G").addEventListener("click", function(event) {
 	localStorage.setItem(PLAYERS_KEY, JSON.stringify(players));
 	points++;
 	//Just scored, so now they start on not offense, and the pull is theirs
-	offense = false;
+	onDefense();
+	notActivePoint(); //Now not an active point, between points
 	gameData.push(current+"-G");
+	reset();
 });
 
 document.getElementById("OG").addEventListener("click", function(event) {
-	notActivePoint();
 	pointsOpponent++;
 	onOffense();
+	notActivePoint();
 	gameData.push("Opponent's goal");
 	current = null;
 });
@@ -228,6 +235,7 @@ function loadButtons() {
         const button = document.createElement("button");
         button.textContent = player;
         button.style.width="100%";
+		button.classList.add('contentButton');
         button.addEventListener("click", function(event) {
             let players = [];
             try {
@@ -236,14 +244,21 @@ function loadButtons() {
                 alert("Error. Please try again.");
                 return false; //exit if there's an issue
             }
-			if (current !== undefined && current !== null && offense === true && current !== button.innerHTML) {
+			if (current !== undefined && current !== null && offense === true && current !== button.innerHTML && activePoint === true) {
 				gameData.push(current+"-"+button.innerHTML);
 			}
             //alert(button.innerHTML+"clicked");  REPLACE THIS WITH WHATEVER HAPPENS WHEN A PLAYER IS CLICKED (separate function?)
             current = button.innerHTML;
             //Add player to the history of people with the disc.
             //Set the current player to this person
+			buttonPlayersArray.forEach(buttonPlayer => {
+				buttonPlayer.style="background-color:#f7cac9;";
+				if (buttonPlayer.innerHTML === current) {
+					buttonPlayer.style="background-color: #c98c8b";
+				}
+			})
         });
+		buttonPlayersArray.push(button);
         let div = document.getElementById("playerButtons");
         div.appendChild(button);
         const newline = document.createElement("br");
@@ -257,17 +272,44 @@ function loadButtons() {
 	notActivePoint();
 }
 
+function reset() {
+	current = null;
+	buttonPlayersArray.forEach(button => {
+		button.style="background-color:#f7cac9;";
+	})
+}
+
 document.getElementById("viewGameData").addEventListener("click", function(event) {
 	console.log(gameData);
 })
 
 document.getElementById("undo").addEventListener("click", function (event) {
-	gameData.pop(); //Remove the last thing in the array
+	const previous = gameData.pop(); //Remove the last thing in the array
+	//Must revert to offense/defense, whatever was before
+	if (previous.includes("-RE") || previous.includes("-TA") || previous.includes("-G")) { //Undoing a turnover
+		onOffense();
+	} else if (previous.includes("Turnover") || previous.includes("-D") || previous.includes("-OG")) {
+		onDefense();
+	} else if (previous.includes("-pull")) {
+		onDefense();
+		notActivePoint();
+	} else {
+		const temp = previous.split("-");
+		const person = temp[0];
+		buttonPlayersArray.forEach(button => {
+			if (button.innerHTML===person) {
+				button.style="background-color: #c98c8b";
+			} else {
+				button.style="background-color: #f7cac9";
+			}
+		});
+	}
 })
 document.getElementById("pickUp").addEventListener("click", function(event) {
 	if (current === null || current === undefined) {
 		alert("Please select the player who picked up first");
 	} else {
 		gameData.push(current+"-Pick up");
+		nowActivePoint();
 	}
 })
