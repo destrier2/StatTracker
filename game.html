@@ -36,6 +36,14 @@
 			#undo:hover {
 				background-color:#e8abed;
 			}
+			.good {
+				background-color:#17a642;
+				border-color:#128234;
+			}
+			.bad {
+				background-color:#d64949;
+				border-color:#913030;
+			}
         </style>
 		<body>
 			<h1>Frisbee stats tracker - Game</h1>
@@ -60,18 +68,22 @@
                         - Times the pull
                 -->
 				<div id="OorD"></div>
+				<div id="lineButtons" class="content" style="padding:5px;">
+					<p id="instructions">Please select the players on the line</p>
+					<!-- Player buttons for each line go here (done in JS) -->
+				</div>
                 <div id="container"">
 				
                     <div id="playerButtons" class = "content" style="padding:5px;"> 
                         <!-- Player buttons go here (done in JS) -->
                     </div>
                     <div id="content" style="padding:5px;"> 
-                        <button id="D" type="button" class = "contentButton" >Defense</button>
-						<button id="OG" type="button" class = "contentButton" >Opponent Goal</button>
+                        <button id="D" type="button" class = "contentButton good" >Defense</button>
+						<button id="OG" type="button" class = "contentButton bad" >Opponent Goal</button>
 						<button id="TO" type="button" class = "contentButton" >Turnover</button>
-                        <button id="TA" type="button" class = "contentButton" >Throwaway</button>
-                        <button id="RE" type="button" class = "contentButton" >Receiver error</button>
-                        <button id="G" type="button" class = "contentButton" >Goal</button>
+                        <button id="TA" type="button" class = "contentButton bad" >Throwaway</button>
+                        <button id="RE" type="button" class = "contentButton bad" >Receiver error</button>
+                        <button id="G" type="button" class = "contentButton good" >Goal</button>
                     </div>
                     <div id="pulls" style="padding:5px;">
 						<button id="startPull" type="button" class = "contentButton">Start Pull</button>
@@ -81,6 +93,8 @@
                 </div>
 				<br><br><br>
 				<button id="undo" type="button">Undo</button>
+				<button id="timeout" type="button">Timeout</button>
+				<button id="endTimeout" type="button" style="display:none">End timeout early</button>
             </div>
 			<br><br>
 			<button type="button" id="viewGameData">View Game Data</button>

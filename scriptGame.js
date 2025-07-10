@@ -12,13 +12,17 @@ let pullTimer; //Count how much time passes from pull start to end
 let gameID; //The id that can be used to refer to this game
 let gameData = []; //All the stuff that happened during the game
 let buttonPlayersArray = [];
+let currentPlayersOn = [];
+let playerLineButtons = []; //Array of buttons for selecting lines
+const playerCount = sessionStorage.getItem("playerCount");
+let seconds; //The length of the game
 /*
 Game data is stored according to the team name and the date.
 Team name id = teamName+"|"+fullYear-month-day+"|"+hours:minutes:seconds
 */
 
 function startTimer() {
-    let seconds = sessionStorage.getItem("gameLength") *60;
+    seconds = sessionStorage.getItem("gameLength") *60;
     const intervalID = setInterval(function() {
         seconds--;
         let minutes = Math.floor(seconds/60);
@@ -66,15 +70,89 @@ function nowActivePoint() {
     document.getElementById("pulls").style.display="none";
     document.getElementById("container").style.display="inline-grid";
 	document.getElementById("content").style.display="inline-grid";
+	buttonPlayersArray.forEach(buttonPlayer => {
+		if (currentPlayersOn.includes(buttonPlayer.innerHTML)) {
+			buttonPlayer.style.display="block";
+		} else {
+			buttonPlayer.style.display="none";
+		}
+	});
+}
+
+function makePlayerLineButtons() {
+	let teamName = sessionStorage.getItem("nowPlaying");
+	let thisPlayer;
+	let numberPlayers = document.getElementById("instructions");
+	numberPlayers.innerHTML+=" ("+playerCount+"):";
+	let divTemp = document.getElementById("lineButtons");
+	divTemp.appendChild(numberPlayers);
+	//Load the teams
+	let teams = [];
+	try {
+		teams = JSON.parse(localStorage.getItem(TEAMS_KEY)) || [];
+	} catch (e) {
+		alert("Error. Please try again.");
+		return false; //exit if there's an issue
+	}
+	const team = teams.find(team => team.name === teamName); //Find the right team
+	team.players.forEach(player => {
+		const button = document.createElement("button");
+		button.textContent = player;
+		button.style.width="100%";
+		button.classList.add('contentButton');
+		button.addEventListener("click", function(event) {
+			thisPlayer = button.innerHTML;
+			button.style="background-color: #c98c8b";
+			currentPlayersOn.push(thisPlayer);
+			if (currentPlayersOn.length == playerCount) {
+				doNotActivePointStuff();
+			}
+		});
+		let div = document.getElementById("lineButtons");
+		div.appendChild(button);
+		const newline = document.createElement("br");
+		div.appendChild(newline);
+		playerLineButtons.push(button);
+	});
+}
+
+function addPlayerLineButtons() {
+	buttonPlayersArray.forEach(buttonPlayer => {
+		buttonPlayer.style="background-color:#f7cac9";
+	});
+	currentPlayersOn = [];
+	document.getElementById("pulls").style.display="none";
+	document.getElementById("playerButtons").style.display="none";
+	document.getElementById("lineButtons").style.display="block";
+	playerLineButtons.forEach(buttonPlayer => {
+		buttonPlayer.style="background-color:#f7cac9";
+	});
 }
 
 function notActivePoint() {
-    activePoint = false;
+	activePoint = false;
+	addPlayerLineButtons();//Add the buttons for player on
+	document.getElementById("pulls").style.display="none";
+	document.getElementById("playerButtons").style.display="none";
+	document.getElementById("content").style.display="none";
+	buttonPlayersArray.forEach(buttonPlayer => {
+		if (currentPlayersOn.includes(buttonPlayer.innerHTML)) {
+			buttonPlayer.style.display="block";
+		} else {
+			buttonPlayer.style.display="none";
+		}
+	});
+}
+
+function doNotActivePointStuff() {
+	document.getElementById("lineButtons").style.display="none";
+	document.getElementById("content").style.display="inline-grid";
+	document.getElementById("playerButtons").style.display="block";
 	if (offense === false) { //If on defense, pull. Otherwise, no pull.
-	    document.getElementById("pulls").style.display="block";
+		document.getElementById("pulls").style.display="block";
 		document.getElementById("endPull").style.display="none";
 		document.getElementById("startPull").style.display="block";
-	    document.getElementById("content").style.display="none";
+		document.getElementById("content").style.display="none";
 		document.getElementById("pickUp").style.display="none";
 	}else {
 		document.getElementById("pulls").style.display="block";
@@ -198,13 +276,14 @@ document.getElementById("endPull").addEventListener("click", function(event) {
 	//Add pull to the player's pulls58.66.113
 	onDefense();
 	gameData.push(current+"-pull ("+(pullTimer/10).toFixed(1)+")");
-	current = null;
+	reset();
 });
 
 // Start the timer when the page loads
 window.onload = startTimer;
 
 function loadButtons() {
+	makePlayerLineButtons();
     let teamName = sessionStorage.getItem("nowPlaying");
 	const d = new Date();	
 	gameID = teamName+"|"+d.toISOString().slice(0, 10)+"|"+d.toISOString().slice(11, 19);
@@ -235,6 +314,7 @@ function loadButtons() {
         const button = document.createElement("button");
         button.textContent = player;
         button.style.width="100%";
+		button.style.display="block";
 		button.classList.add('contentButton');
         button.addEventListener("click", function(event) {
             let players = [];
@@ -252,17 +332,19 @@ function loadButtons() {
             //Add player to the history of people with the disc.
             //Set the current player to this person
 			buttonPlayersArray.forEach(buttonPlayer => {
-				buttonPlayer.style="background-color:#f7cac9;";
-				if (buttonPlayer.innerHTML === current) {
-					buttonPlayer.style="background-color: #c98c8b";
+				if (buttonPlayer.style.display !== "none") {
+					buttonPlayer.style="background-color:#f7cac9;";
+					if (buttonPlayer.innerHTML === current) {
+						buttonPlayer.style="background-color: #c98c8b";
+					}
 				}
 			})
         });
 		buttonPlayersArray.push(button);
         let div = document.getElementById("playerButtons");
         div.appendChild(button);
-        const newline = document.createElement("br");
-        div.appendChild(newline);
+       // const newline = document.createElement("br");
+       // div.appendChild(newline);
     });
 	if (offense) {
 		onOffense();
@@ -276,6 +358,11 @@ function reset() {
 	current = null;
 	buttonPlayersArray.forEach(button => {
 		button.style="background-color:#f7cac9;";
+		if (currentPlayersOn.includes(button.innerHTML)) {
+			button.style.display="block";
+		} else {
+			button.style.display="none";
+		}
 	})
 }
 
@@ -283,11 +370,58 @@ document.getElementById("viewGameData").addEventListener("click", function(event
 	console.log(gameData);
 })
 
+document.getElementById("timeout").addEventListener("click", function(event) {
+	if (timeouts > 0 || !offense) {
+		document.getElementById("endTimeout").style.display="inline-block";
+		document.getElementById("lineButtons").style.display="none";
+		document.getElementById("playerButtons").style.display="none";
+		document.getElementById("content").style.display="none";
+		document.getElementById("pulls").style.display="none";
+		document.getElementById("undo").style.display="none";
+		document.getElementById("timeout").style.display="none";
+		setTimeout(function() {
+			endTimeout();
+	    }, 70*1000); // 1000 milliseconds = 1 second
+	} 
+})
+
+function endTimeout() {
+	document.getElementById("endTimeout").style.display="none";
+	document.getElementById("timeout").style.display="inline-block";
+	document.getElementById("undo").style.display="inline-block";
+	document.getElementById("playerButtons").style.display="block";
+	document.getElementById("content").style.display="inline-grid";
+	if (offense || !activePoint) { //If on offense, decrease number of timeouts allowed. Otherwise, the other team loses a timeout
+		timeouts--;
+		gameData.push("Timeout");
+	} else {
+		gameData.push("Timeout (Other team)");
+	}
+}
+
+document.getElementById("endTimeout").addEventListener("click", function(event) {
+	endTimeout();
+})
+
 document.getElementById("undo").addEventListener("click", function (event) {
 	const previous = gameData.pop(); //Remove the last thing in the array
 	//Must revert to offense/defense, whatever was before
-	if (previous.includes("-RE") || previous.includes("-TA") || previous.includes("-G")) { //Undoing a turnover
+	if (document.getElementById("lineButtons").style.display !== "none") {
+		//Undoing selecting someone to go on the line
+		//Pop the last element from the currently on list and set the color back to normal for the corresponding button
+		const previousPlayer = currentPlayersOn.pop();
+		
+	} else if (previous.includes("-RE") || previous.includes("-TA") || previous.includes("-G")) { //Undoing a turnover
 		onOffense();
+		const temp = previous.split("-");
+		const person = temp[0];
+		buttonPlayersArray.forEach(button => {
+			if (button.innerHTML===person) {
+				button.style="background-color: #c98c8b";
+			} else {
+				button.style="background-color: #f7cac9";
+			}
+		});
 	} else if (previous.includes("Turnover") || previous.includes("-D") || previous.includes("-OG")) {
 		onDefense();
 	} else if (previous.includes("-pull")) {
@@ -297,10 +431,12 @@ document.getElementById("undo").addEventListener("click", function (event) {
 		const temp = previous.split("-");
 		const person = temp[0];
 		buttonPlayersArray.forEach(button => {
-			if (button.innerHTML===person) {
-				button.style="background-color: #c98c8b";
-			} else {
-				button.style="background-color: #f7cac9";
+			if (button.style.display !== "none") {
+				if (button.innerHTML===person) {
+					button.style="background-color: #c98c8b";
+				} else {
+					button.style="background-color: #f7cac9";
+				}
 			}
 		});
 	}

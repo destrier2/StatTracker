@@ -36,16 +36,20 @@ function validGame(teamname) {
 //Ensure that if the user says Other, then the number of players box pops up
 document.getElementById("other").addEventListener ("click", function(event) {
     document.getElementById("otherInput").style.display="inline";
+	sessionStorage.setItem("playerCount", document.getElementById("otherInput").value);
 });
 
 document.getElementById("fours").addEventListener("click", function(event) {
     document.getElementById("otherInput").style.display="none";
+	sessionStorage.setItem("playerCount", 4);
 });
 document.getElementById("fives").addEventListener("click", function(event) {
     document.getElementById("otherInput").style.display="none";
+	sessionStorage.setItem("playerCount", 5);
 });
 document.getElementById("sevens").addEventListener("click", function(event) {
     document.getElementById("otherInput").style.display="none";
+	sessionStorage.setItem("playerCount", 7);
 });
 
 //If the user says there is a half, the length can be set
