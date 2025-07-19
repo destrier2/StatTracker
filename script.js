@@ -5,6 +5,7 @@
 
 const PLAYERS_KEY = "players";
 const TEAMS_KEY = "teams";
+const GAMES_KEY = "games";
 
 document.getElementById("clearStorage").addEventListener("click", function(event) {
 	localStorage.clear();
@@ -14,6 +15,7 @@ document.getElementById("clearStorage").addEventListener("click", function(event
 document.getElementById("viewStorage").addEventListener("click", function(event) {
 	console.log("Players Storage:", localStorage.getItem(PLAYERS_KEY));
 	console.log("Teams Storage:", localStorage.getItem(TEAMS_KEY));
+	console.log("Games storage:", localStorage.getItem(GAMES_KEY));
 });
 
 /*document.getElementById("addPlayer").addEventListener("click", function(event) {

@@ -16,6 +16,7 @@ document.getElementById("newGameForm").addEventListener("submit", function(event
         sessionStorage.setItem("timeouts", document.getElementById("timeoutCount").value);
         sessionStorage.setItem("nowPlaying", tname);
         sessionStorage.setItem("gameLength",document.getElementById("length").value);
+		sessionStorage.setItem("otherTeamName", document.getElementById("otherTeamName").value)
         document.location="game.html";
         event.preventDefault();
     }

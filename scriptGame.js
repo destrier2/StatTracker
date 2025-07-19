@@ -1,6 +1,11 @@
+/*
+NEED TO ADD ASISTS TO THE GAME DATA
+*/
+
 const PLAYERS_KEY = "players";
 const TEAMS_KEY = "teams";
 const GAMES_KEY = "games";
+
 let offense; //true if currently on offense, false otherwise
 let points;
 let pointsOpponent;
@@ -142,6 +147,7 @@ function notActivePoint() {
 			buttonPlayer.style.display="none";
 		}
 	});
+	saveGame();
 }
 
 function doNotActivePointStuff() {
@@ -221,6 +227,9 @@ document.getElementById("G").addEventListener("click", function(event) {
 	}
 	const player = players.find(person => person.name === current); //Find the right person
 	player.g++;
+	const assistPlayerName = gameData[gameData.length-1].split("-")[0]; //Check who just had the disk
+	const assistPlayer = players.find(person => person.name === assistPlayerName); //Find the right person
+	assistPlayer.a++;
 	localStorage.setItem(PLAYERS_KEY, JSON.stringify(players));
 	points++;
 	//Just scored, so now they start on not offense, and the pull is theirs
@@ -279,14 +288,57 @@ document.getElementById("endPull").addEventListener("click", function(event) {
 	reset();
 });
 
+function saveGame() {
+	//Get past games
+	let pastGames = [];
+	try {
+		pastGames = JSON.parse(localStorage.getItem(GAMES_KEY)) || [];
+	} catch (e) {
+		alert("Error. Please try again.");
+		return false; //exit if there's an issue
+	}
+
+    const thisGame = pastGames.find(game => game.id === gameID); //Get the specific game
+	thisGame.data = gameData;
+	thisGame.scoreFor = points;
+	thisGame.scoreAgainst = pointsOpponent;
+	//Save the data
+	try {
+		localStorage.setItem(GAMES_KEY, JSON.stringify(pastGames));
+	} catch (e) {
+		alert("Something went wrong when saving the game");
+		return;
+	}
+}
+
 // Start the timer when the page loads
 window.onload = startTimer;
 
 function loadButtons() {
 	makePlayerLineButtons();
     let teamName = sessionStorage.getItem("nowPlaying");
-	const d = new Date();	
-	gameID = teamName+"|"+d.toISOString().slice(0, 10)+"|"+d.toISOString().slice(11, 19);
+	const d = new Date();
+	const otherTeamName = sessionStorage.getItem("otherTeamName");
+	gameID = teamName+" VS "+otherTeamName+"|"+d.toISOString().slice(0, 10)+"|"+d.toISOString().slice(11, 19);
+	//Save this game to the list of games
+	//Get past games
+	let pastGames = [];
+	try {
+		pastGames = JSON.parse(localStorage.getItem(GAMES_KEY)) || [];
+	} catch (e) {
+		alert("Error. Please try again.");
+		return false; //exit if there's an issue
+	}
+	//Make a new game and add it
+	let thisGame = {id: gameID, data: [], scoreFor: 0, scoreAgainst: 0};
+	pastGames.push(thisGame);
+	try {
+		localStorage.setItem(GAMES_KEY, JSON.stringify(pastGames));
+	} catch (e) {
+		alert("Something went wrong when saving the game");
+		return;
+	}
+	//Make the buttons
 	console.log("gameID: "+gameID);
     timeouts = sessionStorage.getItem("timeouts");
     points = 0;
@@ -379,9 +431,10 @@ document.getElementById("timeout").addEventListener("click", function(event) {
 		document.getElementById("pulls").style.display="none";
 		document.getElementById("undo").style.display="none";
 		document.getElementById("timeout").style.display="none";
+		//Using USA ultimate rules instead of WFDF, 70 second timeout
 		setTimeout(function() {
 			endTimeout();
-	    }, 70*1000); // 1000 milliseconds = 1 second
+	    }, 70*1000); // 1000 milliseconds = 1 second 
 	} 
 })
 

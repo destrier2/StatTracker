@@ -14,7 +14,9 @@
 				<fieldset>
 					<legend>Start a new game</legend>
 					<label for="newGameTeamName">Team name:</label>
-					<input id="newGameTeamName" type="text" required />
+					<input id="newGameTeamName" type="text" required /><br><br>
+					<label for="otherTeamName">Other team name:</label>
+					<input id="otherTeamName" type="text" required />
 					<br><br>
 					<p style="display:inline;">Number of players per line</p><br>
 					<input id="fours" type="radio" name = "lineNum" required />
@@ -48,7 +50,7 @@
                     <label for="noO">No</label>
                     <br>
                     <br>
-                    <label for="timeoutCount">Number of timeouts in game:</label>
+                    <label for="timeoutCount">Number of timeouts in game per team:</label>
                     <input id="timeoutCount" type="number" style="width:15ch;" required />
                     <br><br>
 					<button type="submit">Start game</button>
