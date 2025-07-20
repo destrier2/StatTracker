@@ -28,6 +28,7 @@ document.getElementById("deleteTeam").addEventListener("click", function(event) 
     teams.splice(teams.indexOf(team), 1);
     localStorage.setItem(TEAMS_KEY, JSON.stringify(teams)); //Push changes to storage
     teamName = null;
+    location.reload();
 });
     
 document.getElementById("addPlayer").addEventListener("submit", function(event) {
