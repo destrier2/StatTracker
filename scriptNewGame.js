@@ -60,3 +60,17 @@ document.getElementById("yesHalf").addEventListener("click", function(event) {
 document.getElementById("noHalf").addEventListener("click", function(event) {
     document.getElementById("hiddenHalfStuff").style.display="none";
 });
+
+window.addEventListener("online", (e) => {
+	document.getElementById("ifOffline").style.display="none";
+});
+
+window.addEventListener("offline", (e) => {
+	document.getElementById("ifOffline").style.display="initial";
+});
+
+window.onload = function() {
+	if (!navigator.onLine) {
+		document.getElementById("ifOffline").style.display="initial";
+	}
+};

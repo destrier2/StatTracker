@@ -26,6 +26,20 @@ Game data is stored according to the team name and the date.
 Team name id = teamName+"|"+fullYear-month-day+"|"+hours:minutes:seconds
 */
 
+window.addEventListener("online", (e) => {
+	document.getElementById("ifOffline").style.display="none";
+});
+
+window.addEventListener("offline", (e) => {
+	document.getElementById("ifOffline").style.display="initial";
+});
+
+window.onload = function() {
+	if (!navigator.onLine) {
+		document.getElementById("ifOffline").style.display="initial";
+	}
+};
+
 function startTimer() {
     seconds = sessionStorage.getItem("gameLength") *60;
     const intervalID = setInterval(function() {

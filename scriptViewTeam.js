@@ -260,3 +260,16 @@ function displayTeam(teamname) {
 	}
 }
 
+window.addEventListener("online", (e) => {
+	document.getElementById("ifOffline").style.display="none";
+});
+
+window.addEventListener("offline", (e) => {
+	document.getElementById("ifOffline").style.display="initial";
+});
+
+window.onload = function() {
+	if (!navigator.onLine) {
+		document.getElementById("ifOffline").style.display="initial";
+	}
+};

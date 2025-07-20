@@ -18,6 +18,20 @@ document.getElementById("viewStorage").addEventListener("click", function(event)
 	console.log("Games storage:", localStorage.getItem(GAMES_KEY));
 });
 
+window.addEventListener("online", (e) => {
+	document.getElementById("ifOffline").style.display="none";
+});
+
+window.addEventListener("offline", (e) => {
+	document.getElementById("ifOffline").style.display="initial";
+});
+
+window.onload = function() {
+	if (!navigator.onLine) {
+		document.getElementById("ifOffline").style.display="initial";
+	}
+};
+
 /*document.getElementById("addPlayer").addEventListener("click", function(event) {
 	document.getElementById('hiddenAddPlayer').style.display='block';
 	this.style.display='none';
