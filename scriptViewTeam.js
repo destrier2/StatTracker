@@ -32,6 +32,7 @@ document.getElementById("deleteTeam").addEventListener("click", function(event) 
 });
     
 document.getElementById("addPlayer").addEventListener("submit", function(event) {
+	event.preventDefault(); //Prevent default
 	//Check if player is already in the list
 	let playername = document.getElementById("pName").value;
 		//Load the teams
@@ -52,6 +53,7 @@ document.getElementById("addPlayer").addEventListener("submit", function(event) 
 	}
 	/*document.getElementById("teamName").innerHTML=teamName;
 	openTeam();*/
+	location.reload();
 });
 
 function addPlayerToTeam(playername, teamname) {
