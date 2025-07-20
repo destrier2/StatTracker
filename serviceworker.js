@@ -4,23 +4,23 @@ const CACHE_NAME = `stats-tracker-${VERSION}`;
 
 const APP_STATIC_RESOURCES = [
 	"/",
-	"/index.html",
-	"/style.css",
-	"/StatTrackerIcon.png",
-	"/game.html",
-	"/manifest.json",
-	"/newGame.html",
-	"/newPlayer.html",
-	"/newTeam.html",
-	"/viewGames.html",
-	"/viewPlayers.html",
-	"/viewTeam.html",
-	"/script.js",
-	"/scriptNewGame.js",
-	"/scriptNewPlayer.js",
-	"/scriptNewTeam.js",
-	"/scriptViewGames.js",
-	"/scriptViewPlayers.js"
+	"index.html",
+	"style.css",
+	"StatTrackerIcon.png",
+	"game.html",
+	"manifest.json",
+	"newGame.html",
+	"newPlayer.html",
+	"newTeam.html",
+	"viewGames.html",
+	"viewPlayers.html",
+	"viewTeam.html",
+	"script.js",
+	"scriptNewGame.js",
+	"scriptNewPlayer.js",
+	"scriptNewTeam.js",
+	"scriptViewGames.js",
+	"scriptViewPlayers.js"
 ];
 
 self.addEventListener("install", (event) => {
