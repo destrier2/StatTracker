@@ -53,6 +53,7 @@ document.getElementById("addPlayer").addEventListener("submit", function(event) 
 	}
 	/*document.getElementById("teamName").innerHTML=teamName;
 	openTeam();*/
+	window.location.href = window.location.pathname;
 });
 
 function addPlayerToTeam(playername, teamname) {
