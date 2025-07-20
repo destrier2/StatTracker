@@ -96,9 +96,10 @@ document.getElementById("teamName").addEventListener("keydown", function(event) 
 });
 
 window.addEventListener('load', () => {
+  const STORAGE_KEY = 'debugLogs';
+
   // Create debug console container
   const debugDiv = document.createElement('div');
-  debugDiv.id = 'debugConsole';
   Object.assign(debugDiv.style, {
     position: 'fixed',
     bottom: '0',
@@ -106,7 +107,7 @@ window.addEventListener('load', () => {
     width: '100%',
     maxHeight: '150px',
     overflowY: 'auto',
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0,0,0,0.8)',
     color: '#0f0',
     fontSize: '12px',
     fontFamily: 'monospace',
@@ -116,28 +117,50 @@ window.addEventListener('load', () => {
   });
   document.body.appendChild(debugDiv);
 
-  // Function to add messages to debug console
-  window.logDebug = function(msg) {
+  // Load existing logs from localStorage
+  let logs = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+  logs.forEach(msg => {
+    const p = document.createElement('div');
+    p.textContent = msg;
+    debugDiv.appendChild(p);
+  });
+
+  // Add message to debug console and save to localStorage
+  function logDebug(msg) {
     const p = document.createElement('div');
     p.textContent = msg;
     debugDiv.appendChild(p);
     debugDiv.scrollTop = debugDiv.scrollHeight;
-  };
 
-  // Override console.log to also output to debug console
+    logs.push(msg);
+    // Keep last 100 messages max
+    if (logs.length > 100) logs.shift();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(logs));
+  }
+
+  window.logDebug = logDebug;
+
+  // Override console.log
   const originalConsoleLog = console.log;
   console.log = function(...args) {
     originalConsoleLog.apply(console, args);
-    window.logDebug(args.join(' '));
+    logDebug(args.join(' '));
   };
 
-  // Catch and log uncaught errors
+  // Log errors
   window.addEventListener('error', event => {
-    window.logDebug(`ERROR: ${event.message} at ${event.filename}:${event.lineno}`);
+    logDebug(`ERROR: ${event.message} at ${event.filename}:${event.lineno}`);
   });
 
-  // Example test log
-  console.log('Debug console initialized.');
+  // Clear logs when user clicks debug console (optional)
+  debugDiv.addEventListener('click', () => {
+    logs = [];
+    localStorage.removeItem(STORAGE_KEY);
+    debugDiv.innerHTML = '';
+    console.log('Debug logs cleared.');
+  });
+
+  console.log('Debug console initialized (persistent).');
 });
 
 
