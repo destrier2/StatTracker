@@ -1,0 +1,16 @@
+{
+	"name": "Frisbee Stat Tracker",
+	"short_name": "Stat Tracker",
+	"theme_color": "#f7cac9",
+	"background_color": "#ffffff",
+	"description": "An app that can be used to keep track of frisbee stats. Users can add players to the database, add teams to the database, add players to those teams, and start games, during which the user can track all the actions that occur within that game. A player's overall stats are viewable by clicking 'View Players'",
+	"start_url": "index.html",
+	"display": "standalone",
+	"icons": [
+		{
+			"src": "StatTrackerIcon.png",
+			"sizes": "any"
+		}
+	]
+	
+}

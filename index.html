@@ -4,7 +4,9 @@
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<title>Stats</title>
+		<link rel="manifest" href="manifest.json" />
 		<link rel="stylesheet" href="style.css" />
+		
 	</head>
 		<body>
 			<h1>Frisbee stats tracker - Home</h1>
@@ -19,6 +21,13 @@
 			<button id="viewStorage" type="button">View storage</button>
 			<!-- <button id="clearSS" type="button" onclick="sessionStorage.clear()">Clear Session storage</button> -->
 		<script src="script.js" defer></script>
+		<!-- Register the app's service worker. -->
+		<script>
+		  if ("serviceWorker" in navigator) {
+		    navigator.serviceWorker.register("serviceworker.js");
+		  }
+		</script>
+
 	</body>
 </html>
 
