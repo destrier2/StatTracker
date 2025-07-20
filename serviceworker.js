@@ -73,7 +73,7 @@ self.addEventListener("activate", (event) => {
   );
 });*/
 
-self.addEventListener("fetch", (event) => {
+/*self.addEventListener("fetch", (event) => {
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
       // Return cached response if found, otherwise fetch from network
@@ -88,4 +88,33 @@ self.addEventListener("fetch", (event) => {
       });
     })
   );
+});*/
+self.addEventListener("fetch", (event) => {
+  if (event.request.mode === "navigate") {
+    // Handle navigations (e.g., user reloads a page or opens a deep link)
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        return (
+          cachedResponse ||
+          caches.match("/") || // fallback to root if no direct match
+          new Response("Offline and page not cached", {
+            status: 503,
+            headers: { "Content-Type": "text/plain" },
+          })
+        );
+      })
+    );
+  } else {
+    // Handle all other requests (scripts, images, etc.)
+    event.respondWith(
+      caches.match(event.request).then((cachedResponse) => {
+        return cachedResponse || fetch(event.request);
+      }).catch(() => {
+        return new Response("Offline and resource not cached.", {
+          status: 503,
+          headers: { "Content-Type": "text/plain" },
+        });
+      })
+    );
+  }
 });
