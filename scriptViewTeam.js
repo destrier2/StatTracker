@@ -78,10 +78,6 @@ function addPlayerToTeam(playername, teamname) {
 		const team = teams.find(team => team.name === teamName);
 		team.players.push(playername);
 		localStorage.setItem(TEAMS_KEY, JSON.stringify(teams));
-		// Reload teams from localStorage to sync state
-		teams = JSON.parse(localStorage.getItem(TEAMS_KEY));
-		// Then refresh the UI
-		displayTeam(teamname);
 	} else {
 		alert("No player by this name found");
 	}
