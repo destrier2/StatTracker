@@ -95,6 +95,52 @@ document.getElementById("teamName").addEventListener("keydown", function(event) 
 	}
 });
 
+window.addEventListener('load', () => {
+  // Create debug console container
+  const debugDiv = document.createElement('div');
+  debugDiv.id = 'debugConsole';
+  Object.assign(debugDiv.style, {
+    position: 'fixed',
+    bottom: '0',
+    left: '0',
+    width: '100%',
+    maxHeight: '150px',
+    overflowY: 'auto',
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    color: '#0f0',
+    fontSize: '12px',
+    fontFamily: 'monospace',
+    zIndex: '99999',
+    padding: '4px',
+    whiteSpace: 'pre-wrap',
+  });
+  document.body.appendChild(debugDiv);
+
+  // Function to add messages to debug console
+  window.logDebug = function(msg) {
+    const p = document.createElement('div');
+    p.textContent = msg;
+    debugDiv.appendChild(p);
+    debugDiv.scrollTop = debugDiv.scrollHeight;
+  };
+
+  // Override console.log to also output to debug console
+  const originalConsoleLog = console.log;
+  console.log = function(...args) {
+    originalConsoleLog.apply(console, args);
+    window.logDebug(args.join(' '));
+  };
+
+  // Catch and log uncaught errors
+  window.addEventListener('error', event => {
+    window.logDebug(`ERROR: ${event.message} at ${event.filename}:${event.lineno}`);
+  });
+
+  // Example test log
+  console.log('Debug console initialized.');
+});
+
+
 window.onload = function() {
 	if (sessionStorage.getItem("teamName") !== null) {
 		teamName = sessionStorage.getItem("teamName");
