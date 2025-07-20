@@ -26,8 +26,8 @@ const APP_STATIC_RESOURCES = [
 self.addEventListener("install", (event) => {
   event.waitUntil(
     (async () => {
-      const cache = await caches.open(CACHE_NAME);
-      cache.addAll(APP_STATIC_RESOURCES);
+		const cache = await caches.open(CACHE_NAME);
+		await cache.addAll(APP_STATIC_RESOURCES);
     })(),
   );
 });
