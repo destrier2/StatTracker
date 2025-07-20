@@ -1,5 +1,6 @@
 const VERSION = "v1";
-const CACHE_NAME = 'stats-tracker-${VERSION}';
+const CACHE_NAME = `stats-tracker-${VERSION}`;
+
 
 const APP_STATIC_RESOURCES = [
 	"/",
@@ -50,7 +51,7 @@ self.addEventListener("activate", (event) => {
 
 // On fetch, intercept server requests
 // and respond with cached responses instead of going to network
-self.addEventListener("fetch", (event) => {
+/*self.addEventListener("fetch", (event) => {
   // As a single page app, direct app to always go to cached home page.
   if (event.request.mode === "navigate") {
     event.respondWith(caches.match("/"));
@@ -69,5 +70,22 @@ self.addEventListener("fetch", (event) => {
       // If resource isn't in the cache, return a 404.
       return new Response(null, { status: 404 });
     })(),
+  );
+});*/
+
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.match(event.request).then((cachedResponse) => {
+      // Return cached response if found, otherwise fetch from network
+      return cachedResponse || fetch(event.request);
+    }).catch((error) => {
+      console.error("Fetch failed:", error);
+      // Optional: return fallback page here
+      return new Response("Offline and resource not cached.", {
+        status: 503,
+        statusText: "Service Unavailable",
+        headers: { "Content-Type": "text/plain" },
+      });
+    })
   );
 });
