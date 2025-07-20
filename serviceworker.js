@@ -3,7 +3,7 @@ const CACHE_NAME = `stats-tracker-${VERSION}`;
 
 
 const APP_STATIC_RESOURCES = [
-	"/",
+	"/StatTracker/",
 	"/StatTracker/index.html",
 	"/StatTracker/style.css",
 	"/StatTracker/StatTrackerIcon.png",
