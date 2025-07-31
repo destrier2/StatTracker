@@ -21,7 +21,8 @@ const APP_STATIC_RESOURCES = [
 	"/StatTracker/scriptNewTeam.js",
 	"/StatTracker/scriptViewGames.js",
 	"/StatTracker/scriptViewPlayers.js",
-	"/StatTracker/scriptViewTeam.js"
+	"/StatTracker/scriptViewTeam.js",
+	"/StatTracker/scriptGame.js"
 ];
 
 self.addEventListener("install", (event) => {
