@@ -33,6 +33,36 @@
 			<br><br>
             <button id="addPlayer" type="button" onclick="document.location='newPlayer.html'">Add a player</button>
 			<br><br>
+			<!-- This allows users to edit the player name, number, stats etc in case of an input error -->
+			<button id="editPlayer" type="button">Edit a player</button>
+			<div id="editPlayerHiddenStuff" style="display:none;"> 
+				<br>
+				<fieldset style="background-color:lightgray;">
+				<form id="formEditPlayer"><br>
+					<label for="playerName">Name of player: </label>
+					<input type="text" id="playerName" required /> <br><br>
+					<label for="dropdown">What would you like to modify?</label>
+					<select id="dropdown">
+						<option value="name">Name</option>
+						<option value="number">Number</option>
+						<option value="gender">Gender</option>
+						<option value="pulls">Pulls</option>
+						<option value="throwaways">Throwaways</option>
+						<option value="ds">Ds</option>
+						<option value="goals">Goals</option>
+						<option value="assists">Assists</option>
+						<option value="secondAssists">Second assists</option>
+						<option value="receiverError">Receiver error</option>
+					</select>
+					<br><br>
+					<label for="newValue">Enter the new value: </label>
+					<input id="newValue" type="text" required />
+					<br><br>
+					<button type="submit">Submit</button>
+				</fieldset>
+				</form>
+			</div>
+			<br><br>
 			<button id="removePlayer" type="button" class="delete">Remove a player</button>
 			<br><br>
 			<div id="removePlayerHiddenStuff" style="display:none;">

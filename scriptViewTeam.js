@@ -53,6 +53,7 @@ document.getElementById("addPlayer").addEventListener("submit", function(event) 
 	}
 	/*document.getElementById("teamName").innerHTML=teamName;
 	openTeam();*/
+	document.getElementById("pName").value="";
 	openTeam();
 });
 
@@ -88,15 +89,21 @@ function addPlayerToTeam(playername, teamname) {
 document.getElementById("teamName").addEventListener("keydown", function(event) {
 	if (event.key==='Enter') {
 		event.preventDefault();
-		teamName = document.getElementById('teamName').value;
-		openTeam();
+		teamEntered();
 	}
 });
+
+function teamEntered() {
+	teamName = document.getElementById('teamName').value;
+	openTeam();
+}
 
 window.onload = function() {
 	if (sessionStorage.getItem("teamName") !== null) {
 		teamName = sessionStorage.getItem("teamName");
 		openTeam();
+		console.log("team name should be ", teamName);
+
 	}
 };
 
@@ -110,7 +117,8 @@ window.onbeforeunload = function() {
 
 function openTeam() {
 	document.getElementById('hiddenTeamStuff').style.display='block';
-	
+	document.getElementById('playerCount').style.display='block';
+	console.log("Team name is:", teamName);
 	if (teamName && teamName.length > 0) {
 		document.getElementById('nameHere').innerHTML = teamName;
 	}
@@ -189,6 +197,7 @@ function checkTeam(table, current, team) {
         
         row.addEventListener('mousedown', function(event) {
             document.getElementById('teamName').value = team.name;
+			teamEntered();
         });
 	}
 }

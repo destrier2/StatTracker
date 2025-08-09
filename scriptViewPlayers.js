@@ -93,6 +93,72 @@ document.getElementById("formRemovePlayer").addEventListener("submit", function(
 	}
 });
 
+document.getElementById("editPlayer").addEventListener("click", function(event) {
+	document.getElementById("editPlayerHiddenStuff").style.display='block';
+})
+
+document.getElementById("dropdown").addEventListener("click", function(event) {
+	const dropdownValue = document.getElementById("dropdown").value;
+	if (dropdownValue === "number" || dropdownValue === "pulls" || dropdownValue === "throwaways" || dropdownValue === "ds" || dropdownValue === "goals" || dropdownValue === "assists" || dropdownValue === "secondAssists" || dropdownValue === "receiverError"){
+		document.getElementById("newValue").type = "number";
+	} else {
+		document.getElementById("newValue").type = "text";
+	}
+})
+
+document.getElementById("formEditPlayer").addEventListener("submit", function(event) {
+	event.preventDefault();
+	//Search for the player
+	let playerToEdit = document.getElementById("playerName").value;
+	let players = [];
+	try {
+		players = JSON.parse(localStorage.getItem(PLAYERS_KEY)) || [];
+	} catch (e) {
+		alert("Error. Please try again.");
+		return; //exit if there's an issue
+	}
+	const exists = players.some(player => player.name === playerToEdit); //If the player exists
+	if (!exists) {
+		alert("Player not found: "+playerToEdit);
+	} else {
+		const player = players.find(person => person.name === playerToEdit);
+		const dropdownValue = document.getElementById("dropdown").value;
+		const newValue = document.getElementById("newValue").value;
+		if (dropdownValue === "name") {
+			player.name = newValue;
+		} else if (dropdownValue === "number"){
+			player.number = newValue;
+		} else if (dropdownValue === "gender") {
+			if (newValue === "O" || newValue === "W" || newValue === "o" || newValue === "w") {
+				player.gender = newValue.toUpperCase();
+			} else {
+				alert('Please enter either "O" or "W" for the gender');
+			}
+		} else if (dropdownValue === "pulls") {
+			player.ph = [];
+			player.ph.push(newValue);
+		} else if (dropdownValue === "throwaways") {
+			player.ta = newValue;
+		} else if (dropdownValue === "ds") {
+			player.d = newValue;
+		} else if (dropdownValue === "goals") {
+			player.g = newValue;
+		} else if (dropdownValue === "assists") {
+			player.a = newValue;
+		} else if (dropdownValue === "secondAssists") {
+			player.twoa = newValue;
+		} else if (dropdownValue === "receiverError") {
+			player.re = newValue;
+		}
+		console.log(player);
+		localStorage.setItem(PLAYERS_KEY, JSON.stringify(players)); //Push changes to storage
+		location.reload(); //Display changes in the table once the changes are pushed
+	}
+	//search all the stored players for one with the same name
+	//Then modify their stats
+	//if gender, must be O/W (lowercase works too)
+})
+
 /*
 function storeNewPlayer(playerName, playerNum, playerGender) {
 
