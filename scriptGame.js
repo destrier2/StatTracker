@@ -55,6 +55,7 @@ window.onload = function() {
 	} catch (e) {
 		localStorage.removeItem("bgColor"); //Delete bg color if it exists
 	}
+	startTimer();
 };
 function setColors(color) {
 	const r = document.querySelector(':root');
@@ -384,9 +385,6 @@ function saveGame() {
 		return;
 	}
 }
-
-// Start the timer when the page loads
-window.onload = startTimer;
 
 function loadButtons() {
 	makePlayerLineButtons();
