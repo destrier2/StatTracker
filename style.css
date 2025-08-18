@@ -1,17 +1,25 @@
+:root {
+	--main: #f7cac9;
+	--accent: #deb7b6;
+	--text: black;
+	--background: #ffffff;
+}
 button {
-	background-color: #f7cac9;
-	border: 2px solid #deb7b6;
+	background-color: var(--main);
+	border: 2px solid var(--accent);
 	border-radius: 5px;
 	padding: 20px 20px;
 	transition-duration:0.5s;
-    color:black;
+    color: var(--text);
 }
 button:hover {
-	background-color: white;
-	border: 2px solid #dba9c8;
+	background-color: var(--background);
+	border: 2px solid var(--accent);
 }
 body {
 	text-align:center;
+	background-image:linear-gradient(white, var(--background));
+	min-height:100vh;
 }
 .mainMenu {
 	display:block;
@@ -22,12 +30,12 @@ body {
 	display:none;
 }
 .delete {
-    color:white;
+    color:var(--text);
     background-color: #fa6161;
     border: 2px solid #bd0909;
 }
 .delete:hover {
-    background-color: white;
+    background-color: var(--background);
     color:red;
     border: 2px solid red;
 }
@@ -65,4 +73,5 @@ fieldset {
     border-radius: 20px;
     width: 80vw;
     margin:auto;
+	background-color:rgba(255, 255, 255, 0.4)
 }

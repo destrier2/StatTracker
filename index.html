@@ -19,11 +19,23 @@
 			<button id = "addPlayer" class = "mainMenu" type="button" onclick="document.location='newPlayer.html'">Add Player</button>
 			<button id = "viewPlayers" class = "mainMenu" type="button" onclick="document.location='viewPlayers.html'">View Players</button>
 			<button id = "viewGames" class = "mainMenu" type="button" onclick="document.location='viewGames.html'">View Games</button>
+			<br>
+			<!-- <button id="changeColorButton" type="button">Change colors</button> -->
+			<br><br>
+			<input id="colorPicker" type="color" value="#f7cac9" style="width:75px; height:75px;display:inline-block;margin:none;">
+			<input id="borderColor" type="color" disabled style="width:75px; height:75px;display:inline-block;margin:none;border-color:#767676">
+			<input id="bgColorPicker" type="color" value="#ffffff" style="width:75px; height:75px;display:inline-block;margin:none;">
+			<!-- 
+			<div id="hiddenColorStuff" style="display:none">
+				
+			</div>
+			-->
 			<br><br>
 			<button id="clearStorage" type="button">Clear storage</button>
 			<button id="viewStorage" type="button">View storage</button>
 			<!-- <button id="clearSS" type="button" onclick="sessionStorage.clear()">Clear Session storage</button> -->
-		<script src="script.js" defer></script>
+			
+			<script src="script.js" defer></script>
 		<!-- Register the app's service worker. -->
 		<script>
 		  if ("serviceWorker" in navigator) {
