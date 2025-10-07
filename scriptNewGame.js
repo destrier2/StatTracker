@@ -37,6 +37,9 @@ function validGame(teamname) {
 //Ensure that if the user says Other, then the number of players box pops up
 document.getElementById("other").addEventListener ("click", function(event) {
     document.getElementById("otherInput").style.display="inline";
+});
+
+document.getElementById("otherInput").addEventListener("input", function(event) {
 	sessionStorage.setItem("playerCount", document.getElementById("otherInput").value);
 });
 

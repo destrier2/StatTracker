@@ -19,8 +19,9 @@ document.getElementById("clearData").addEventListener("click", function (event) 
     let emptyGames = [];
     try {
 		localStorage.setItem(GAMES_KEY, JSON.stringify(emptyGames));
+		location.reload();
 	} catch (e) {
-		alert("Something went wrong when saving the game");
+		alert("Something went wrong");
 		return;
 	}
 })
