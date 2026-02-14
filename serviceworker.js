@@ -1,4 +1,4 @@
-const VERSION = "v2";
+const VERSION = "v1";
 const CACHE_NAME = `stats-tracker-${VERSION}`;
 
 
