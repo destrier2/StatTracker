@@ -82,7 +82,7 @@ function deleteGame(game) {
     try {
 		localStorage.setItem(GAMES_KEY, JSON.stringify(oldGames));
 	} catch (e) {
-		alert("Something went wrong when saving the game");
+		alert("Something went wrong when deleting the game");
 		return;
 	}
     deleteStatus = true;
@@ -138,12 +138,14 @@ function view(game) {
                         break;
                     case "TA": 
                         ta++;
+						touch++; //Throwing away is also a touch
                         break;
                     case "RE":
                         re++;
                         break;
                     case "A":
                         a++;
+						touch++; //An assist is also a touch
                         break;
                     case "A2":
                         aTwo++;

@@ -38,68 +38,8 @@ window.onload = function() {
 	if (!navigator.onLine) {
 		document.getElementById("ifOffline").style.display="initial";
 	}
-	try {
-		let color = localStorage.getItem("color");
-		if (color.length == 7) {
-			setColors(color);
-		} else {
-			throw TypeError;
-		}
-	} catch (e) {
-		localStorage.removeItem("color"); //if it exists
-	}
-	try {
-		let bgcolor = localStorage.getItem("bgColor");
-		const r = document.querySelector(':root');
-		r.style.setProperty("--background", bgcolor);
-	} catch (e) {
-		localStorage.removeItem("bgColor"); //Delete bg color if it exists
-	}
 	startTimer();
 };
-function setColors(color) {
-	const r = document.querySelector(':root');
-	r.style.setProperty("--main", color);
-	const red = parseInt(color.substring(1,3), 16);
-	const green = parseInt(color.substring(3,5), 16);
-	const blue = parseInt(color.substring(5,7), 16);
-
-	let redVal;
-	let greenVal;
-	let blueVal;
-	
-	if (red < 40 || blue < 40 || green < 40) {
-		redVal = Math.min(red+50, 255);
-		blueVal = Math.min(blue+50, 255);
-		greenVal = Math.min(green+50, 255);
-	} else {
-		redVal = Math.max(red-40, 0);
-		blueVal = Math.max(blue-40, 0);
-		greenVal = Math.max(green-40, 0);
-	}
-	let newRed = (redVal.toString(16));
-	let newGreen = (greenVal.toString(16));
-	let newBlue = (blueVal.toString(16));
-	//Set text to white or black
-	if ((red+blue+green)/3 < 255/2) {
-		r.style.setProperty("--text", "white");
-	} else {
-		r.style.setProperty("--text", "black");
-	}
-	//Add length if necessary
-	if (newRed.length < 2) {
-		newRed = "0"+newRed;
-	}
-	if (newBlue.length < 2) {
-		newBlue = "0"+newBlue;
-	}
-	if (newGreen.length <2) {
-		newGreen = "0"+newGreen;
-	}
-	let borderColor = "#"+newRed+newGreen+newBlue;
-	r.style.setProperty("--accent", borderColor);
-	console.log("Border color is: " + borderColor + " red is: " + newRed + " green is: " + newGreen + " and blue is " + newBlue);
-}
 
 function startTimer() {
     seconds = sessionStorage.getItem("gameLength") *60;
@@ -182,7 +122,7 @@ function makePlayerLineButtons() {
 		button.classList.add('contentButton');
 		button.addEventListener("click", function(event) {
 			thisPlayer = button.innerHTML;
-			button.style="background-color: #c98c8b";
+			button.style="background-color: var(--background)";
 			currentPlayersOn.push(thisPlayer);
 			if (currentPlayersOn.length == playerCount) {
 				doNotActivePointStuff();
@@ -198,18 +138,19 @@ function makePlayerLineButtons() {
 
 function addPlayerLineButtons() {
 	buttonPlayersArray.forEach(buttonPlayer => {
-		buttonPlayer.style="background-color:#f7cac9";
+		buttonPlayer.style="background-color:var(--main)";
 	});
 	currentPlayersOn = [];
 	document.getElementById("pulls").style.display="none";
 	document.getElementById("playerButtons").style.display="none";
 	document.getElementById("lineButtons").style.display="block";
 	playerLineButtons.forEach(buttonPlayer => {
-		buttonPlayer.style="background-color:#f7cac9";
+		buttonPlayer.style="background-color:var(--main)";
 	});
 }
 
 function notActivePoint() {
+	saveGame();
 	activePoint = false;
 	addPlayerLineButtons();//Add the buttons for player on
 	document.getElementById("pulls").style.display="none";
@@ -222,7 +163,6 @@ function notActivePoint() {
 			buttonPlayer.style.display="none";
 		}
 	});
-	saveGame();
 }
 
 function doNotActivePointStuff() {
@@ -235,7 +175,7 @@ function doNotActivePointStuff() {
 		document.getElementById("startPull").style.display="block";
 		document.getElementById("content").style.display="none";
 		document.getElementById("pickUp").style.display="none";
-	}else {
+	} else {
 		document.getElementById("pulls").style.display="block";
 		//If the pull isn't from this team, there has to be a separate button. pick up? 
 		document.getElementById("endPull").style.display="none";
@@ -248,7 +188,6 @@ function doNotActivePointStuff() {
 
 //D, TA, RE, G
 document.getElementById("D").addEventListener("click", function(event) {
-	onOffense(); //Defended the disc, now on offense 
 	let players = [];
 	try {
 		players = JSON.parse(localStorage.getItem(PLAYERS_KEY)) || [];
@@ -259,11 +198,11 @@ document.getElementById("D").addEventListener("click", function(event) {
 	const player = players.find(person => person.name === current); //Find the right person
 	player.g++;
 	gameData.push(current+"-D");
+	onOffense(); //Defended the disc, now on offense 
 	reset();
 });
 
 document.getElementById("TA").addEventListener("click", function(event) {
-    onDefense(); //Throwaway, now on defense
 	let players = [];
 	try {
 		players = JSON.parse(localStorage.getItem(PLAYERS_KEY)) || [];
@@ -274,11 +213,11 @@ document.getElementById("TA").addEventListener("click", function(event) {
 	const player = players.find(person => person.name === current); //Find the right person
 	player.ta++;
 	gameData.push(current+"-TA");
+	onDefense(); //Throwaway, now on defense
 	reset();
 });
 
 document.getElementById("RE").addEventListener("click", function(event) {
-    onDefense(); //Someone dropped, now on defense
 	let players = [];
 	try {
 		players = JSON.parse(localStorage.getItem(PLAYERS_KEY)) || [];
@@ -289,6 +228,7 @@ document.getElementById("RE").addEventListener("click", function(event) {
 	const player = players.find(person => person.name === current); //Find the right person
 	player.re++;
 	gameData.push(current+"-RE");
+	onDefense(); //Someone dropped, now on defense
 	reset();
 });
 
@@ -305,26 +245,34 @@ document.getElementById("G").addEventListener("click", function(event) {
 	const assistPlayerName = gameData[gameData.length-1].split("-")[0]; //Check who just had the disk
 	const assistPlayer = players.find(person => person.name === assistPlayerName); //Find the right person
 	assistPlayer.a++;
+	const twoAssistPlayerName = gameData[gameData.length-2].split("-")[0]; //Check who had the disk two times before
+	const twoBackAction = gameData[gameData.length-2].split("-")[1]; //Check what action occured before
+	const twoAssistPlayer = players.find(person => person.name === assistPlayerName); //find the player
+	if (twoBackAction === assistPlayerName) { //Only if it was a pass to the person who got an assist, does it count as a second assist
+		twoAssistPlayer.twoa++;
+		gameData.push(twoAssistPlayerName+"-A2");
+	}
 	localStorage.setItem(PLAYERS_KEY, JSON.stringify(players));
 	points++;
+	gameData.push(assistPlayerName+"-A");
+	gameData.push(current+"-G");
 	//Just scored, so now they start on not offense, and the pull is theirs
 	onDefense();
 	notActivePoint(); //Now not an active point, between points
-	gameData.push(current+"-G");
 	reset();
 });
 
 document.getElementById("OG").addEventListener("click", function(event) {
 	pointsOpponent++;
-	onOffense();
-	notActivePoint();
 	gameData.push("Opponent's goal");
 	current = null;
+	onOffense();
+	notActivePoint();
 });
 
 document.getElementById("TO").addEventListener("click", function(event) { //Turnover
-	onOffense(); //Now on offense
 	gameData.push("Turnover");
+	onOffense(); //Now on offense
 });
 
 //Pulls stuff
@@ -358,8 +306,8 @@ document.getElementById("endPull").addEventListener("click", function(event) {
 		/*team.players.push(playername);
 		localStorage.setItem(TEAMS_KEY, JSON.stringify(teams));*/
 	//Add pull to the player's pulls58.66.113
-	onDefense();
 	gameData.push(current+"-pull ("+(pullTimer/10).toFixed(1)+")");
+	onDefense();
 	reset();
 });
 
@@ -415,7 +363,6 @@ function loadButtons() {
     timeouts = sessionStorage.getItem("timeouts");
     points = 0;
     pointsOpponent = 0;
-    offense = sessionStorage.getItem("startOffense");
 	//Load other games
 	let games = [];
 	try {
@@ -457,9 +404,9 @@ function loadButtons() {
             //Set the current player to this person
 			buttonPlayersArray.forEach(buttonPlayer => {
 				if (buttonPlayer.style.display !== "none") {
-					buttonPlayer.style="background-color:#f7cac9;";
+					buttonPlayer.style="background-color:var(--main)";
 					if (buttonPlayer.innerHTML === current) {
-						buttonPlayer.style="background-color: #c98c8b";
+						buttonPlayer.style="background-color:var(--background)";
 					}
 				}
 			})
@@ -470,7 +417,9 @@ function loadButtons() {
        // const newline = document.createElement("br");
        // div.appendChild(newline);
     });
-	if (offense) {
+	offense = (sessionStorage.getItem("startOffense") === "true");
+	console.log("Offense is " + offense);
+	if (offense === true) {
 		onOffense();
 	} else {
 		onDefense();
@@ -481,7 +430,7 @@ function loadButtons() {
 function reset() {
 	current = null;
 	buttonPlayersArray.forEach(button => {
-		button.style="background-color:#f7cac9;";
+		button.style="background-color:var(--main);";
 		if (currentPlayersOn.includes(button.innerHTML)) {
 			button.style.display="block";
 		} else {
@@ -516,7 +465,7 @@ function endTimeout() {
 	document.getElementById("undo").style.display="inline-block";
 	document.getElementById("playerButtons").style.display="block";
 	document.getElementById("content").style.display="inline-grid";
-	if (offense || !activePoint) { //If on offense, decrease number of timeouts allowed. Otherwise, the other team loses a timeout
+	if (offense === true || activePoint === false) { //If on offense, decrease number of timeouts allowed. Otherwise, the other team loses a timeout
 		timeouts--;
 		gameData.push("Timeout");
 	} else {
@@ -542,9 +491,9 @@ document.getElementById("undo").addEventListener("click", function (event) {
 		const person = temp[0];
 		buttonPlayersArray.forEach(button => {
 			if (button.innerHTML===person) {
-				button.style="background-color: #c98c8b";
+				button.style="background-color: var(--background)";
 			} else {
-				button.style="background-color: #f7cac9";
+				button.style="background-color: var(--main)";
 			}
 		});
 	} else if (previous.includes("Turnover") || previous.includes("-D") || previous.includes("-OG")) {
@@ -558,9 +507,9 @@ document.getElementById("undo").addEventListener("click", function (event) {
 		buttonPlayersArray.forEach(button => {
 			if (button.style.display !== "none") {
 				if (button.innerHTML===person) {
-					button.style="background-color: #c98c8b";
+					button.style="background-color: var(--background)";
 				} else {
-					button.style="background-color: #f7cac9";
+					button.style="background-color: var(--main)";
 				}
 			}
 		});
