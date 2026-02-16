@@ -12,10 +12,14 @@ button {
 	transition-duration:0.5s;
     color: var(--text);
 }
-button:hover {
-	background-color: var(--background);
+
+@media (hover: hover) {
+  button:hover {
+    background-color: var(--background);
 	border: 2px solid var(--accent);
+  }
 }
+
 body {
 	text-align:center;
 	background-image:linear-gradient(white, var(--background));
